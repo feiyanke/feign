@@ -13,6 +13,15 @@
  */
 package feign;
 
+import static feign.ExceptionPropagationPolicy.NONE;
+
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import feign.Logger.NoOpLogger;
 import feign.ReflectiveFeign.ParseHandlersByName;
 import feign.Request.Options;
@@ -21,13 +30,6 @@ import feign.codec.Decoder;
 import feign.codec.Encoder;
 import feign.codec.ErrorDecoder;
 import feign.querymap.FieldQueryMapEncoder;
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import static feign.ExceptionPropagationPolicy.NONE;
 
 /**
  * Feign's purpose is to ease development against http apis that feign restfulness. <br>
@@ -321,7 +323,7 @@ public abstract class Feign {
 
       SynchronousMethodHandler.Factory synchronousMethodHandlerFactory =
           new SynchronousMethodHandler.Factory(client, retryer, requestInterceptors,
-              responseInterceptors,logger, logLevel, dismiss404, closeAfterDecode,
+              responseInterceptors, logger, logLevel, dismiss404, closeAfterDecode,
               propagationPolicy, forceDecoding);
       ParseHandlersByName handlersByName =
           new ParseHandlersByName(contract, options, encoder, decoder, queryMapEncoder,
